@@ -160,6 +160,7 @@ const EventMapSection = () => {
     });
   });
   const categories = Array.from(categoriesSet);
+  console.log(categories);
 
   useEffect(() => {
     // Get user's location

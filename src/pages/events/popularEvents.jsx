@@ -85,7 +85,7 @@ const HeroSection = () => {
         ))}
       </div>
 
-      <div className="relative z-40 flex flex-col items-center justify-center h-full text-white text-center">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center">
         <AnimatePresence mode="wait">
           <motion.div
             key={popularEventsData[currentIndex].title}
