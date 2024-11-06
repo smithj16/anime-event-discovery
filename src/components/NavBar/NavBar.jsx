@@ -8,8 +8,7 @@ import { Image } from "../shared/image";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 
-const logo = "/images/websiteLogo.png";
-
+const logo = "/images/logo.jpg";
 const paintBrushStroke = "/images/brushStroke.png";
 
 ///NavBar Component///
@@ -20,7 +19,7 @@ const NavBar = () => {
     setIsOpen((prevState) => !prevState);
   };
   return (
-    <Disclosure as="nav" className="shadow-2xl bg-galactic-background/65 py-2 z-20">
+    <Disclosure as="nav" className="shadow-2xl  py-2 z-20">
       <div className="mx-auto max-w-[1500px] px-1 sm:px-2 xl:px-8">
         <div className="flex h-24 justify-between">
           <div className="flex">
@@ -255,9 +254,9 @@ const MobileNavBar = ({ isOpen }) => {
             exit="exit"
             variants={revealVariant}
             key="mobile-navbar"
-            className="z-30"
+            className="z-50"
           >
-            <div className="space-y-1 pb-3 pt-2 font-bold z-30">
+            <div className="space-y-1 pb-3 pt-2 font-bold z-50">
               <Disclosure.Button
                 as="a"
                 href="/home"

@@ -10,6 +10,8 @@ import SearchEventCard from "@/components/UI/SearchEventCard";
 import { popularEventsCardData } from "@/utils/popularEventsData";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchEvent } from "@/store/slices/eventSlice";
 
 const Header = () => {
   const backgroundImage = "/images/heroImage6.jpg";
@@ -36,6 +38,17 @@ const Header = () => {
 };
 
 const SearchEventSection = () => {
+  const dispatch = useDispatch();
+  const eventState = useSelector((state) => state.event);
+  const { status, eventItem, error } = eventState;
+
+  const handleSearch = (searchTerm) => {
+    dispatch(fetchEvent(searchTerm));
+    console.log(eventItem);
+  };
+
+  const isEventItemEmpty = Object.keys(eventItem).length === 0;
+
   const image = "/images/animeCity.jpg";
   const phraseWords = [
     "Conventions",
@@ -58,7 +71,16 @@ const SearchEventSection = () => {
             sentence="Search for these type of events"
           />
           <div className="pt-28">
-            <AnimeSearchInput />
+            <AnimeSearchInput onSearch={handleSearch} />
+            <div className="my-12">
+              {status === "loading" && <p>Loading...</p>}
+              {status === "failed" && <p>Error: {error}</p>}
+              {isEventItemEmpty ? (
+                <p className="text-5xl">Search for event</p>
+              ) : (
+                <SearchEventCard event={eventItem} />
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -167,7 +189,6 @@ const SearchEventsPage = () => {
     // Prevent rendering on the server-side, avoiding hydration mismatch
     return null;
   }
-  
 
   return (
     <div className="flex flex-col">
@@ -183,7 +204,7 @@ const SearchEventsPage = () => {
           )}
           <div className="w-full">
             <SearchEventSection />
-            <SearchResultGrid searchData={popularEventsCardData} />
+            {/* <SearchResultGrid searchData={popularEventsCardData} /> */}
           </div>
         </div>
       </main>

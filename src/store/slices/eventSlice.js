@@ -5,6 +5,7 @@ import { eventInfoList } from '@/utils/eventInfoList';
 
 
 
+
 // Async Thunk for Fetching Popular Events
 export const fetchPopularEvents = createAsyncThunk(
     "events/fetchPopularEvents",
@@ -23,6 +24,20 @@ export const fetchUpcomingEvents = createAsyncThunk(
     }
 );
 
+//Async thunk for Fetching a Event
+
+ export const fetchEvent = createAsyncThunk(
+    "events/fetchEvent",
+    async (event) => {
+        try {
+            const response = await api.singleEventApi(event);
+            return response;
+          } catch (error) {
+            throw error; 
+          }
+    } 
+ )
+
 // Functions for each state
 const setPending = (state) => {
     state.status = "loading";
@@ -38,6 +53,11 @@ const setFulfilledUpcoming = (state, action) => {
     state.upcomingItems = action.payload?.events;
 };
 
+const setFulfilledEvent = (state,action) => {
+    state.status = "succeeded";
+    state.eventItem = action.payload?.event;
+}
+
 const setRejected = (state, action) => {
     state.status = "failed";
     state.error = action.error.message;
@@ -49,6 +69,7 @@ const eventSlice = createSlice({
     initialState: {
         popularItems: popularEventsData,
         upcomingItems: popularEventsCardData,
+        eventItem:{},
         status: "idle",
         error: null,
     },
@@ -58,6 +79,9 @@ const eventSlice = createSlice({
             .addCase(fetchPopularEvents.pending, setPending)
             .addCase(fetchPopularEvents.fulfilled, setFulfilledPopular)
             .addCase(fetchPopularEvents.rejected, setRejected)
+            .addCase(fetchEvent.pending, setPending)
+            .addCase(fetchEvent.fulfilled, setFulfilledEvent)
+            .addCase(fetchEvent.rejected, setRejected)
             .addCase(fetchUpcomingEvents.pending, setPending)
             .addCase(fetchUpcomingEvents.fulfilled, setFulfilledUpcoming)
             .addCase(fetchUpcomingEvents.rejected, setRejected);

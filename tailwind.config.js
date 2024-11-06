@@ -31,6 +31,7 @@ module.exports = {
         'cosmic-3': 'linear-gradient(135deg, #FF4081, #6200EA, #009688, #D8B6FC)',
         'cosmic-4': 'linear-gradient(135deg, #FDD835, #BB86FC, #66E8D4)',
         'cosmic-5': 'linear-gradient(135deg, #6200EA, #FF7043, #4A00C8, #FF4081)',
+        'custom-gradient': 'linear-gradient(to top, #0250c5 0%, #d43f8d 100%)'
       },
     },
   },

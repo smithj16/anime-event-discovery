@@ -1,25 +1,31 @@
 import MissionSection from "./missionSection";
-import HeroSection from "./heroSection";
+import HeroSection from "./HeroSection/heroSection";
 import LatestAnimeNewsSection from "./lastestAnimeSection";
 import Footer from "@/components/Footer/Footer";
-import  PopularEventsSection from "./popularEventsSection";
-import { useMediaQuery } from "react-responsive";
+import PopularEventsSection from "./popularEventsSection";
+import { useEffect, useState } from "react";
+import NavBar from "@/components/NavBar/NavBar";
 import HeroSectionTwo from "@/components/shared/heroSection";
-import withAuth from "@/hooks/withAuth";
-import { Features } from "@/components/UI/DisappearingScrollFeature";
-import { popularEventsData } from "@/utils/popularEventsData";
 
 //Home Component
-
 const Home = () => {
-  const isMobile = useMediaQuery({ query: "(max-width: 640px)" });
-  
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    // Prevent rendering on the server-side, avoiding hydration mismatch
+    return null;
+  }
+
   return (
     <div className="bg-cosmic-5 flex flex-col">
-      <HeroSection />
+      <NavBar/>
+      <HeroSectionTwo />
       <main>
         <MissionSection />
-        <PopularEventsSection/>
+        <PopularEventsSection />
         <LatestAnimeNewsSection />
       </main>
       <Footer />

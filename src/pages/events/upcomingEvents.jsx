@@ -12,6 +12,7 @@ import MobileBar from "@/components/shared/mobileBar";
 import HorizontalBar from "@/components/shared/horizontalBar";
 import formatDate from "@/utils/dateFormatter";
 import { popularEventsData } from "@/utils/popularEventsData";
+import { fetchPopularEvents } from "@/store/slices/eventSlice";
 import {
   Heart,
   Calendar,
@@ -22,6 +23,8 @@ import {
   ChevronUp,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { FailedApiComponent } from "@/components/UI/FailedComponent";
+import { useSelector, useDispatch } from "react-redux";
 
 const Header = () => {
   const backgroundImage = "/images/heroImage6.jpg";
@@ -229,6 +232,14 @@ const FilteredEventsSection = ({ events }) => {
     categories,
     BiSolidCategoryAlt
   );
+  const dispatch = useDispatch();
+
+  const popularEventsState = useSelector((state) => state.event);
+  const { status, popularItems, error } = popularEventsState;
+  useEffect(() => {
+    dispatch(fetchPopularEvents());
+  }, [dispatch]);
+
 
   return (
     <div className="px-10">
@@ -247,7 +258,7 @@ const FilteredEventsSection = ({ events }) => {
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {events.map((event) => {
+        {popularItems.map((event) => {
           return FeaturedEventCard({ event });
         })}
       </div>
@@ -291,9 +302,8 @@ const UpcomingEventsPage = () => {
             <VerticalTabs menuItems={menuItems} />
           )}
           <div className="w-full">
-            <div className="px-8"> 
-
-            <HeroSection />
+            <div className="px-8">
+              <HeroSection />
             </div>
             <FeaturedEventSection />
             <FilteredEventsSection events={popularEventsData} />

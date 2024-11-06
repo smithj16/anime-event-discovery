@@ -1,4 +1,3 @@
-
 import api from "./customAxios";
 
 // Axios instances for APIs
@@ -24,7 +23,10 @@ export const latestNewsApi = async () => {
 // Fetch upcoming events
 export const upcomingEventsApi = async () => {
   try {
-    const response = await api.post("api/secure/readAllDocuments/UpcomingEvents", {});
+    const response = await api.post(
+      "api/secure/readAllDocuments/UpcomingEvents",
+      {}
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching upcoming events:", error);
@@ -35,7 +37,22 @@ export const upcomingEventsApi = async () => {
 // Fetch popular events
 export const popularEventsApi = async () => {
   try {
-    const response = await api.post("api/secure/readAllDocuments/PopularEvents", {});
+    const response = await api.post(
+      "api/secure/readAllDocuments/PopularEvents",
+      {}
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching popular events:", error);
+    throw error;
+  }
+};
+
+export const singleEventApi = async (name) => {
+  try {
+    const response = await api.post("api/secure/ReadDocument", {
+      name,
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching popular events:", error);
