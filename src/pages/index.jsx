@@ -1,7 +1,8 @@
 
 import LoginPage from "./login";
+import Home from '@/pages/home';
 
-function HomePage() {
+function RootPage() {
   return (
     <>
       <LoginPage />
@@ -9,4 +10,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default RootPage;

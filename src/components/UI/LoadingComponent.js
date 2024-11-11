@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { motion, useAnimate } from "framer-motion";
 
-export const LoadingComponentAnimation = () => {
+const LoadingComponentAnimation = () => {
   return (
     <div className="grid h-72 place-content-center p-4">
       <ShuffleLoader />

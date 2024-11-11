@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Image } from "../../components/shared/image";
+import Image from "next/image";
 import Button from "@/components/UI/OutLineButton";
 import { animeNews } from "../../utils/animeNews";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +16,8 @@ const ShimmerBorderCard = ({ news }) => {
       <div className="relative h-full z-10 flex flex-col items-center justify-center overflow-hidden rounded-[7px] bg-slate-900 p-6 transition-colors duration-500 group-hover:bg-slate-800">
         <Image
           alt={news.title}
+          width={400}
+          height={400}
           src={news.imageUrl}
           className="h-36 w-72 rounded-[7px]"
         />

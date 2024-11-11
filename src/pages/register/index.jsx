@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { Image } from "../../components/shared/image";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 import { useDispatch, useSelector } from "react-redux";
-import { signUp } from "../../store/slices/userSlice";
+import { registerUser } from "@/store/slices/userSlice";
 import { motion, AnimatePresence } from "framer-motion";
 import avatarIconList from "../../utils/avatarList";
 import DialogPopUp from "../../components/UI/DialogPopUp";
@@ -24,7 +24,6 @@ const SignupPage = () => {
   const { values, handleChange, resetForm, isValid, errors } =
     useFormAndValidation();
 
-
   //animation objects
   const inputVariants = {
     initial: { opacity: 0, scale: 0.8 },
@@ -40,7 +39,6 @@ const SignupPage = () => {
       },
     },
   };
-  
 
   //avatar input functions
   const toggleDropdown = () => setIsOpen(!isOpen);
@@ -50,10 +48,9 @@ const SignupPage = () => {
     setIsOpen(false);
   };
 
-
   //Form functions
   const handleRegistration = (userData) => {
-    dispatch(signUp(userData))
+    dispatch(registerUser(userData))
       .unwrap()
       .then((res) => {
         console.log(res);
@@ -63,7 +60,7 @@ const SignupPage = () => {
       })
       .catch((err) => {
         console.error(err);
-        setErrorMessage("Failed to register. Try again");
+        setErrorMessage(err.message || "Failed to register. Try again");
         setIsError(true);
         setOpen(true);
       });
@@ -82,7 +79,7 @@ const SignupPage = () => {
       dob: values.dob,
       createTime: createTime,
       zipcode: values.zipcode,
-      state: values.state
+      state: values.state,
     });
   };
 
@@ -367,6 +364,7 @@ const SignupPage = () => {
             setOpen(false);
             return;
           }
+          // On successful registration, redirect to login
           router.push("/login");
         }}
         title={isError ? "Registration Failed" : "Registration Successful"}

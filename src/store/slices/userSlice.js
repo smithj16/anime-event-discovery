@@ -1,93 +1,84 @@
-// store/authSlice.js
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { signin, register } from "@/utils/auth";
+// store/slices/userSlice.js
 
-// Thunks for async actions
-export const signIn = createAsyncThunk(
-  "user/signIn",
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { signin, register } from '@/utils/auth';
+import axios from 'axios';
+
+export const loginUser = createAsyncThunk(
+  'user/loginUser',
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await signin({ email, password });
-      console.log(response);
-      return response; // Assuming response contains the token
+      const { user } = response.data;
+      // Handle user data if returned
+      console.log(user);
+      return user;
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response?.data || error.message);
     }
   }
 );
 
-export const signUp = createAsyncThunk(
-  "user/signUp",
+export const registerUser = createAsyncThunk(
+  'user/registerUser',
   async (userData, { rejectWithValue }) => {
     try {
       const response = await register(userData);
-      return response;
+      const { data } = response;
+      // Handle user data if returned
+      return data;
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response?.data || error.message);
     }
   }
 );
 
-// Slice for user state
+// Thunk for logging out
+export const logoutUser = createAsyncThunk('user/logoutUser', async () => {
+  await axios.post('/api/auth/logout');
+});
+
 const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState: {
-    userInfo: null,
-    token: null, // Add a token field to store JWT
-    status: "idle", // 'idle', 'loading', 'succeeded', 'failed'
+    userInfo: null, 
+    loading: false,
     error: null,
   },
-  reducers: {
-    logout: (state) => {
-      state.userInfo = null;
-      state.token = null;
-      localStorage.removeItem("jwt"); // Optionally remove from localStorage if stored there
-    },
-    setUserInfo: (state, action) => {
-      state.userInfo = action.payload.account;
-      state.token = action.payload.token;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(signIn.pending, (state) => {
-        state.status = "loading";
+      // Login cases
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
       })
-      .addCase(signIn.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.userInfo = action.payload.data.account; // Set user info
-        state.token = action.payload.data.token; // Set token
-        localStorage.setItem("jwt", action.payload.data.token); // Optionally store the token in localStorage
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userInfo = action.payload;
       })
-      .addCase(signIn.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload;
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload.message || 'Login failed';
       })
-      .addCase(signUp.pending, (state) => {
-        state.status = "loading";
+      // Register cases
+      .addCase(registerUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
       })
-      .addCase(signUp.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.userInfo = action.payload.account;
-        state.token = action.payload.token;
-        localStorage.setItem("jwt", action.payload.token); // store the token in localStorage
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userInfo = action.payload;
       })
-      .addCase(signUp.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload;
+      .addCase(registerUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload.message || 'Registration failed';
+      })
+      // Logout case
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.userInfo = null;
       });
   },
 });
 
-export const { logout, setUserInfo } = userSlice.actions;
 export default userSlice.reducer;
-
-// Function to load user info and token from localStorage
-export const loadUserInfo = () => (dispatch) => {
-  const token = localStorage.getItem("jwt");
-  if (token) {
-    // You could decode the token or fetch the user info from your API if necessary
-    dispatch(setUserInfo({ token }));
-  }
-};
-

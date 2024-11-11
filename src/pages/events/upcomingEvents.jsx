@@ -3,14 +3,14 @@ import NavBar from "@/components/NavBar/NavBar";
 import VerticalTabs from "@/components/shared/sidebarNav";
 import { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
-import { Image } from "@/components/shared/image";
+import Image from "next/image";
 import { IoLocationSharp } from "react-icons/io5";
 import { MdCalendarMonth } from "react-icons/md";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import StaggeredDropDown from "@/components/shared/staggeredDropdown";
 import MobileBar from "@/components/shared/mobileBar";
 import HorizontalBar from "@/components/shared/horizontalBar";
-import formatDate from "@/utils/dateFormatter";
+import formatDate from "@/hooks/dateFormatter";
 import { popularEventsData } from "@/utils/popularEventsData";
 import { fetchPopularEvents } from "@/store/slices/eventSlice";
 import {
@@ -18,9 +18,6 @@ import {
   Calendar,
   MapPin,
   Users,
-  Star,
-  X,
-  ChevronUp,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { FailedApiComponent } from "@/components/UI/FailedComponent";
@@ -76,6 +73,8 @@ const FeaturedEventSection = () => {
       <div className="bg-gradient-to-r from-purple-800 to-indigo-800 rounded-lg p-6 flex flex-col md:flex-row items-center">
         <Image
           alt="image"
+          width={400}
+          height={400}
           src="/images/bleach.jpg"
           className="w-full md:w-1/3 h-64 object-cover rounded-lg mb-4 md:mb-0 md:mr-6"
         />
@@ -118,6 +117,8 @@ const FeaturedEventCard = ({ event }) => {
       <Image
         src={event.images?.card}
         alt={event.name}
+        width={400}
+        height={400}
         className="w-full h-48 object-cover"
       />
       <div className="p-4">

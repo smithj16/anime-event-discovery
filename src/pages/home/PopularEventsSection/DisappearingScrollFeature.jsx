@@ -1,9 +1,8 @@
 import React, { useRef } from "react";
-import { Image } from "../shared/image";
+import Image from "next/image";
 import { useScroll, useTransform, motion } from "framer-motion";
 
-export const Features = ({ events }) => {
-  console.log(events);
+const Features = ({ events }) => {
   return (
     <div className="relative bg-white rounded-badge mx-auto grid h-full w-full max-w-7xl grid-cols-1 gap-8 px-4 md:grid-cols-2 md:px-10">
       <Copy />
@@ -32,7 +31,6 @@ const Copy = () => {
 };
 
 const Carousel = ({ events }) => {
-  console.log(events);
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -65,19 +63,32 @@ const CarouselItem = ({ scrollYProgress, position, numItems, event }) => {
   const end = stepSize * position;
   const start = end - stepSize;
 
-  const opacity = useTransform(scrollYProgress, [start, end], [1, 0]);
-  const scale = useTransform(scrollYProgress, [start, end], [1, 0.75]);
+  const opacity = useTransform(scrollYProgress, [start, end], [1, 0], {
+    type: "spring",
+    stiffness: 100,
+    damping: 20,
+  });
+
+  const scale = useTransform(scrollYProgress, [start, end], [1, 0.75], {
+    type: "spring",
+    stiffness: 100,
+    damping: 20,
+  });
 
   return (
     <motion.div
       style={{ opacity, scale }}
-      className="relative grid aspect-video w-full shrink-0 rounded-2xl overflow-hidden bg-neutral-900"
+      className="relative grid aspect-video w-full shrink-0 rounded-2xl overflow-hidden bg-neutral-900 will-change-transform will-change-opacity"
     >
       {/* Background Image */}
       <Image
         src={event.images.card}
         alt={event.name}
-        className="absolute inset-0 h-full w-full object-cover"
+        layout="fill"
+        objectFit="cover"
+        quality={60}
+        loading="eager"
+        className="absolute inset-0 h-full w-full"
       />
 
       {/* Overlay Content */}
@@ -103,6 +114,8 @@ const CarouselItem = ({ scrollYProgress, position, numItems, event }) => {
     </motion.div>
   );
 };
+
+export default Features;
 
 const Gradient = () => (
   <div className="sticky top-0 z-10 hidden h-24 w-full bg-gradient-to-b from-indigo-50 to-indigo-50/0 md:block" />

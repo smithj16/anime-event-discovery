@@ -1,4 +1,4 @@
-import { Image } from "../../components/shared/image";
+import Image from "next/image";
 
 const EventFormPage = () => {
   return <EventForm />;
@@ -9,8 +9,10 @@ const EventForm = () => {
     <div className="relative bg-galactic-background">
       <div className="lg:absolute lg:inset-0 lg:left-1/2">
         <Image
-          alt=""
+          alt="event organizer photo"
           src="/images/eventImage.jpg"
+          width={40}
+          height={40}
           className="h-64 w-full bg-gray-50 object-cover sm:h-80 lg:absolute lg:h-full"
         />
       </div>

@@ -3,10 +3,12 @@ import { useState } from "react";
 import { Disclosure, Menu } from "@headlessui/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import SearchBar from "../UI/NavSearchBar";
-import { Image } from "../shared/image";
+import SearchBar from "./NavSearchInput";
+import Image from "next/image";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import axios from "axios";
 
 const logo = "/images/logo.jpg";
 const paintBrushStroke = "/images/brushStroke.png";
@@ -18,6 +20,19 @@ const NavBar = () => {
   const toggleMenu = () => {
     setIsOpen((prevState) => !prevState);
   };
+  const router = useRouter();
+
+  const handleLogout = () => {
+    axios.post('/api/auth/logout')
+      .then(() => {
+        // Redirect to login page after logout
+        router.push('/login');
+      })
+      .catch((error) => {
+        console.error('Logout error:', error);
+      });
+  }; 
+
   return (
     <Disclosure as="nav" className="shadow-2xl  py-2 z-20">
       <div className="mx-auto max-w-[1500px] px-1 sm:px-2 xl:px-8">
@@ -44,9 +59,10 @@ const NavBar = () => {
                   <div className="absolute flex items-center inset-0  opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <Image
                       src={paintBrushStroke}
-                      alt=""
-                      className="w-full h-16 "
-                      fill = "true"
+                      alt="black paintbrush stroke"
+                      className="w-full h-12 rotate-[8deg] skew-x-12"
+                      height={400}
+                      width={400}
                       style={{ objectFit: "cover" }}
                     />
                   </div>
@@ -57,7 +73,7 @@ const NavBar = () => {
           {/* Search Bar */}
           <SearchBar classes="hidden md:flex items-center" />
           {/* User Icon Component */}
-          <UserProfileMenu />
+          <UserProfileMenu logOut={handleLogout} />
 
           <div className="mr-2 flex items-center sm:hidden">
             {/* Mobile menu button */}
@@ -80,14 +96,14 @@ const NavBar = () => {
         </div>
       </div>
 
-      <MobileNavBar isOpen={isOpen} />
+      <MobileNavBar isOpen={isOpen} logOut={handleLogout} />
     </Disclosure>
   );
 }
 
 ///User Avatar Badge///
 
-const UserProfileMenu = () => {
+const UserProfileMenu = ({logOut}) => {
   const [isOpen, setIsOpen] = useState(false);
   const user = useSelector((state) => state.user);
   // const userData = user.userInfo.Account;
@@ -149,7 +165,7 @@ const UserProfileMenu = () => {
             {/* <span className="absolute -inset-1.5 rounded-full" />
             <span className="sr-only">Open user menu</span> */}
             <Image
-              alt=""
+              alt="profile pic"
               width={100}
               height={100}
               src={userAvatar}
@@ -198,14 +214,15 @@ const UserProfileMenu = () => {
               </Menu.Item>
               <Menu.Item>
                 {({ active }) => (
-                  <a
-                    href="#"
+          
+                  <button
                     className={`duration-200 block px-4 py-2 text-sm ${
                       active ? "bg-gray-100" : "text-galactic-text"
                     }`}
+                    onClick={logOut}
                   >
                     Sign out
-                  </a>
+                  </button>
                 )}
               </Menu.Item>
             </Menu.Items>
@@ -218,7 +235,7 @@ const UserProfileMenu = () => {
 
 ///MobileNavBar Component///
 
-const MobileNavBar = ({ isOpen }) => {
+const MobileNavBar = ({ isOpen, logOut }) => {
   const user = useSelector((state) => state.user);
   // const userData = user.userInfo.Account
   // const userAvatar = `/images/avatarIcons/${userData?.avatar}.gif`;
@@ -292,7 +309,7 @@ const MobileNavBar = ({ isOpen }) => {
               <div className="flex items-center px-4">
                 <div className="flex-shrink-0">
                   <Image
-                    alt=""
+                    alt="profile pic"
                     width={32}
                     height={32}
                     src={userAvatar}
@@ -325,7 +342,7 @@ const MobileNavBar = ({ isOpen }) => {
                 </Disclosure.Button>
                 <Disclosure.Button
                   as="a"
-                  href="#"
+                  onClick={logOut}
                   className="block px-4 py-2 text-base duration-100 hover:border-l-4 hover:border-galactic-secondary hover:bg-gray-100 hover:text-gray-800"
                 >
                   Sign out

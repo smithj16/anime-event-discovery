@@ -9,12 +9,12 @@ import {
   popularEventsCardData,
   featuredEventsData,
 } from "@/utils/popularEventsData";
-import { Image } from "@/components/shared/image";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import FilterTabs from "@/components/shared/filterTabs";
 import CharacterWithMessage from "@/components/UI/AnimeCharacterMessager";
 import ButtonCarousel from "@/components/shared/buttonCarousel";
-import dateFormatter from "@/utils/dateFormatter";
+import dateFormatter from "@/hooks/dateFormatter";
 import { useMediaQuery } from "react-responsive";
 import MobileBar from "@/components/shared/mobileBar";
 import HorizontalBar from "@/components/shared/horizontalBar";
@@ -57,6 +57,8 @@ const FeaturedItem = ({ images, date, name, description, style }) => {
     <div className={style?.container} style={style}>
       <Image
         src={images?.logo}
+        width={400}
+        height={400}
         className="mb-3 h-[200px] w-full rounded-lg object-cover"
         alt={`An image for a fake blog post titled ${name}`}
       />
@@ -160,7 +162,6 @@ const EventMapSection = () => {
     });
   });
   const categories = Array.from(categoriesSet);
-  console.log(categories);
 
   useEffect(() => {
     // Get user's location

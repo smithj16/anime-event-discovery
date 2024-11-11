@@ -2,9 +2,9 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
-import { Image } from "@/components/shared/image";
+import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { signIn } from "@/store/slices/userSlice";
+import { loginUser } from "@/store/slices/userSlice";
 import BackgroundChanger from "@/components/UI/BackgroundChanger";
 import { useFormAndValidation } from "@/hooks/useFormAndValidation";
 import DialogPopUp from "@/components/UI/DialogPopUp";
@@ -15,27 +15,29 @@ function LoginPage() {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
   const { values, handleChange, errors, isValid, resetForm } =
     useFormAndValidation();
   const [showPassword, setShowPassword] = useState(false);
-  const loginState = useSelector((state) => state.user); 
-  const {status, error} = loginState;
+  const loginState = useSelector((state) => state.user);
+  const { status, error } = loginState;
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
   const handleLogin = ({ email, password }) => {
-    dispatch(signIn({ email, password }))
+    dispatch(loginUser({ email, password }))
       .unwrap()
       .then((res) => {
         console.log(res);
+        // Redirect to the desired page after successful login
         router.push("/home");
       })
       .catch((err) => {
         console.error(err);
-        setErrorMessage("Failed to login. Incorrect email or password");
+        setErrorMessage(
+          err.message || "Failed to login. Incorrect email or password"
+        );
         setIsError(true);
         setOpen(true);
       });
@@ -47,7 +49,7 @@ function LoginPage() {
     handleLogin({ email: values.email, password: values.password });
   };
 
-  const websiteLogo = "/images/websiteLogo.png"
+  const websiteLogo = "/images/websiteLogo.png";
 
   return (
     <>
@@ -68,7 +70,7 @@ function LoginPage() {
               height={32}
               className="mx-auto w-auto h-40 md:h-44 xl:h-auto"
               src={websiteLogo}
-              alt="Your Company"
+              alt="Anime Event Discovery"
             />
             <h2 className="mt-4 md:mt-10 text-center text-lg lg:text-2xl font-bold leading-9 tracking-tight text-white">
               Sign in to your account
@@ -181,13 +183,13 @@ function LoginPage() {
               return;
             }
           }}
-          title={isError ? "Login Failed" : "Registration Successful"}
+          title={isError ? "Login Failed" : "Login Successful"}
           description={
             isError
               ? errorMessage
-              : "You have successfully registered. Welcome aboard!"
+              : "You have successfully logged in. Welcome back!"
           }
-          buttonText={isError ? "Try Again" : "Login"}
+          buttonText={isError ? "Try Again" : "Proceed"}
           isError={isError}
         />
       </BackgroundChanger>

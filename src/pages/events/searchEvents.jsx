@@ -7,7 +7,6 @@ import MobileBar from "@/components/shared/mobileBar";
 import AnimeSearchInput from "@/components/UI/BeamInput";
 import { VanishText } from "@/components/UI/VanishingText";
 import SearchEventCard from "@/components/UI/SearchEventCard";
-import { popularEventsCardData } from "@/utils/popularEventsData";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";

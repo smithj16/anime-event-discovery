@@ -24,7 +24,7 @@ export const latestNewsApi = async () => {
 export const upcomingEventsApi = async () => {
   try {
     const response = await api.post(
-      "api/secure/readAllDocuments/UpcomingEvents",
+      "/secure/readAllDocuments/UpcomingEvents",
       {}
     );
     return response.data;
@@ -38,7 +38,7 @@ export const upcomingEventsApi = async () => {
 export const popularEventsApi = async () => {
   try {
     const response = await api.post(
-      "api/secure/readAllDocuments/PopularEvents",
+      "/secure/readAllDocuments/PopularEvents",
       {}
     );
     return response.data;
@@ -50,7 +50,7 @@ export const popularEventsApi = async () => {
 
 export const singleEventApi = async (name) => {
   try {
-    const response = await api.post("api/secure/ReadDocument", {
+    const response = await api.post("/secure/ReadDocument", {
       name,
     });
     return response.data;

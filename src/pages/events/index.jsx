@@ -4,7 +4,7 @@ import Link from "next/link";
 import VerticalTabs from "../../components/shared/sidebarNav";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Image } from "@/components/shared/image";
+import Image from "next/image";
 import eventTipList from "@/utils/eventTipList";
 import SpringModal from "@/components/shared/springModal";
 import { useMediaQuery } from "react-responsive";
@@ -148,9 +148,11 @@ const SubmitEventSection = () => {
           </div>
           <div className="col-end-1 w-16 lg:row-span-4 lg:w-72">
             <Image
-              alt=""
+              alt="call to action photo"
               src={image}
-              className="rounded-xl bg-indigo-50 lg:rounded-3xl"
+              width={400}
+              height={400}
+              className="rounded-xl w-full bg-indigo-50 lg:rounded-3xl"
             />
           </div>
           <figcaption className="text-base text-galactic-text lg:col-start-1 lg:row-start-3">

@@ -1,4 +1,4 @@
-import { Image } from "../../components/shared/image";
+import Image from "next/image";
 
 //Misson Section
 
@@ -13,6 +13,8 @@ const MissionSection = () => {
             <div className="relative aspect-[2/1] h-full md:-mx-8 xl:mx-0 xl:aspect-auto">
               <Image
                 alt="image"
+                width={4000}
+                height={4000}
                 src={missionImage}
                 className="absolute inset-0 h-full w-full rounded-2xl bg-gray-800 object-cover shadow-2xl"
               />

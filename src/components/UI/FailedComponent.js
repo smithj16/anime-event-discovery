@@ -4,7 +4,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-export const FailedApiComponent = ({ error }) => {
+export const FailedApiComponent = (error) => {
+  error = "error";
   const image = "/images/hawks.png";
   return (
     <div className="flex justify-center">

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Image } from "./image";
 import { FaStar, FaHeart, FaCalendarAlt, FaTimes } from "react-icons/fa";
-import formatDate from "@/utils/dateFormatter";
+import formatDate from "@/hooks/dateFormatter";
 
 const Modal = ({ event, isOpen, onClose }) => {
   const selectedFormat = "format4";

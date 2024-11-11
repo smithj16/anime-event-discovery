@@ -4,14 +4,12 @@ import VerticalTabs from "@/components/shared/sidebarNav";
 import HorizontalBar from "@/components/shared/horizontalBar";
 import MobileBar from "@/components/shared/mobileBar";
 import { motion } from "framer-motion";
-import { Image } from "@/components/shared/image";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { popularEventsCardData } from "@/utils/popularEventsData";
 import { FaStar, FaFire, FaCalendarAlt } from "react-icons/fa";
-import Carousel from "@/components/shared/carousel";
-import SearchEventCard from "@/components/UI/SearchEventCard";
-import ButtonCarousel from "@/components/shared/buttonCarousel";
+
 
 const Header = () => {
   const backgroundImage = "/images/heroImage6.jpg";
@@ -54,6 +52,8 @@ const renderEventCard = (event, cardSize) => {
         {/* Image with overlay */}
         <Image
           src={event.images.card}
+          width={1000}
+          height={1000}
           alt={event.name}
           className="w-full h-48 object-cover rounded-t-xl"
         />

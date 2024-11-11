@@ -5,14 +5,14 @@ import NavBar from "@/components/NavBar/NavBar";
 import VerticalTabs from "../../components/shared/sidebarNav";
 import MobileBar from "@/components/shared/mobileBar";
 import HorizontalBar from "@/components/shared/horizontalBar";
-import { Image } from "@/components/shared/image";
+import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
 import { useMediaQuery } from "react-responsive";
 import { motion, AnimatePresence } from "framer-motion";
 import { popularEventsData, popularEventsCardData } from "@/utils/popularEventsData";
 import { FaHeart, FaMapMarkerAlt, FaCalendarAlt, FaStar } from "react-icons/fa";
 import Modal from "@/components/shared/eventCardModal";
-import formatDate from "@/utils/dateFormatter";
+import formatDate from "@/hooks/dateFormatter";
 
 const getRandomHeight = () => {
   const heights = [280, 320, 350, 380, 420]; // Adjusted possible heights to avoid too small cards
@@ -184,6 +184,8 @@ const PopularEventsSection = () => {
                 src={event?.images?.card}
                 alt={event?.name}
                 className="w-full object-cover"
+                width={40}
+                height={40}
                 style={{ height: `${height}px`, maxHeight: "450px" }}
               />
               <div

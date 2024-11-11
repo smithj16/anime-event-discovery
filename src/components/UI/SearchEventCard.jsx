@@ -2,7 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FcLike, FcRatings, FcBarChart } from "react-icons/fc";
-import { Image } from "../shared/image";
+import Image from "next/image";
 
 const SearchEventCard = ({ event }) => {
   const {
@@ -37,6 +37,8 @@ const SearchEventCard = ({ event }) => {
         <Image
           src={images.card}
           alt={name}
+          width={400}
+          height={400}
           className="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-105"
         />
       </div>
