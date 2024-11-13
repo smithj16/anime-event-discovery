@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Image } from "./image";
+import Image from "next/image";
 import { FaStar, FaHeart, FaCalendarAlt, FaTimes } from "react-icons/fa";
 import formatDate from "@/hooks/dateFormatter";
 
@@ -32,6 +32,8 @@ const Modal = ({ event, isOpen, onClose }) => {
           <Image
             src={event?.images?.card}
             alt={event?.name}
+            width={400}
+            height={400}
             className="w-full h-64 object-cover"
           />
         </div>

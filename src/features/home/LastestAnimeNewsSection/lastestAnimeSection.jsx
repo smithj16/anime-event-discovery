@@ -1,12 +1,11 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Button from "@/components/UI/OutLineButton";
-import { animeNews } from "../../utils/animeNews";
+import Button from "@/shared/components/UI/OutLineButton";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLastestNews } from "@/store/slices/newsSlice";
-import { FailedApiComponent } from "@/components/UI/FailedComponent";
+import { FailedApiComponent } from "@/shared/components/UI/FailedComponent";
 import { useEffect } from "react";
-import SkeletonCard from "@/components/shared/skeletonCard";
+import SkeletonCard from "@/shared/skeletonCard";
 
 //Lastest Anime Section
 

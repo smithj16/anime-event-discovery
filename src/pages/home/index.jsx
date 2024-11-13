@@ -1,31 +1,19 @@
 // pages/home/index.jsx
-import MissionSection from "./missionSection";
-import LatestAnimeNewsSection from "./lastestAnimeSection";
-import Footer from "@/components/Footer/Footer";
-import PopularEventsSection from "./PopularEventsSection/popularEventsSection";
-import NavBar from "@/components/NavBar/NavBar";
-import HeroSection from "@/pages/home/HeroSection/heroSection";
-import { popularEventsCardData } from "@/utils/popularEventsData";
 import { parse } from "cookie";
 import api from "@/utils/customAxios";
-import cookie from "cookie";
+import Home from "@/features/home/Home";
+import AnimePageTransition from "@/shared/AnimePageTransition";
 
-const Home = ({ upcomingEventsData,popularEventsData }) => {
+const HomePage = ({ upcomingEventsData, popularEventsData }) => {
   return (
-    <div className="bg-cosmic-5 flex flex-col">
-      <NavBar />
-      <HeroSection upcomingEventsData={upcomingEventsData} />
-      <main>
-        <MissionSection />
-        <PopularEventsSection popularEventsData={popularEventsData}/>
-        <LatestAnimeNewsSection />
-      </main>
-      <Footer />
-    </div>
+      <Home
+        upcomingEventsData={upcomingEventsData}
+        popularEventsData={popularEventsData}
+      />
   );
 };
 
-export default Home;
+export default HomePage;
 
 export async function getServerSideProps(context) {
   const { req } = context;

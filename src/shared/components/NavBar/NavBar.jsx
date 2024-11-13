@@ -48,7 +48,7 @@ const NavBar = () => {
               />
             </div>
             <div className="hidden text-base lg:text-lg lg:ml-6 sm:flex lg:space-x-5 xl:space-x-16 text-galactic-accent">
-              {/* Updated Link Components */}
+              {/*Link Components */}
               {["Home", "Events", "News", "Profile"].map((item) => (
                 <Link
                   key={item}

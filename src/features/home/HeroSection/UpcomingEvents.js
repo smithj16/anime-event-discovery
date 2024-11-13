@@ -4,8 +4,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/free-mode";
 import { FreeMode, Pagination, Autoplay } from "swiper/modules";
-import { Card } from "@/components/UI/EventCard";
-import { FailedApiComponent } from "@/components/UI/FailedComponent";
+import { Card } from "@/shared/components/UI/EventCard";
+import { FailedApiComponent } from "@/shared/components/UI/FailedComponent";
 
 const UpcomingEvents = ({ events }) => {
   if (!events || events.length === 0) {

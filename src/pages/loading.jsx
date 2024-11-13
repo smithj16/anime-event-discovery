@@ -1,4 +1,4 @@
-import { LoadingScreen } from "@/components/UI/LoadingScreen";
+import { LoadingScreen } from "@/shared/components/UI/LoadingScreen";
 
 
 function LoadingScreenPage () {

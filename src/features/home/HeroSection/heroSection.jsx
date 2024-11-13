@@ -2,7 +2,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import Button from "../../../components/UI/OutLineButton";
+import Button from "../../../shared/components/UI/OutLineButton";
 import { useRouter } from "next/router";
 
 const heroImages = {

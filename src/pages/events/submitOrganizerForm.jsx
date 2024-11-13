@@ -1,3 +1,5 @@
+//events/submitOrgnaizerForm route page 
+
 import Image from "next/image";
 
 const EventFormPage = () => {
@@ -11,8 +13,8 @@ const EventForm = () => {
         <Image
           alt="event organizer photo"
           src="/images/eventImage.jpg"
-          width={40}
-          height={40}
+          width={40000}
+          height={40000}
           className="h-64 w-full bg-gray-50 object-cover sm:h-80 lg:absolute lg:h-full"
         />
       </div>

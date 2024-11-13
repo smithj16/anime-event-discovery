@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "@/store/slices/userSlice";
-import BackgroundChanger from "@/components/UI/BackgroundChanger";
+import BackgroundChanger from "@/shared/components/UI/BackgroundChanger";
 import { useFormAndValidation } from "@/hooks/useFormAndValidation";
-import DialogPopUp from "@/components/UI/DialogPopUp";
+import DialogPopUp from "@/shared/components/UI/DialogPopUp";
 
 function LoginPage() {
   const dispatch = useDispatch();
