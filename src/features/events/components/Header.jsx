@@ -9,7 +9,7 @@ const Header = () => {
           style={{ backgroundImage: `url(${backgroundImage})` }}
         >
           {/* NavBar with Dropdown */}
-          <div className="absolute top-0 left-0 right-0 z-50">
+          <div className="absolute top-0 left-0 right-0 z-30">
             <NavBar />
           </div>
   

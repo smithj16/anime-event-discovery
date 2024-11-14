@@ -12,3 +12,26 @@
 .animate-shimmer {
   animation: shimmer 1.5s infinite;
 }
+
+.slide-in {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: url("/images/sunset.jpg");
+  transform-origin: bottom;
+}
+
+.slide-out {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: url("/images/sunset.jpg");
+  transform-origin: top;
+}
+
+
+
