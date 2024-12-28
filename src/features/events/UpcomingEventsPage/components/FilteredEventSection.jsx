@@ -1,102 +1,151 @@
-// FileredEventsSection
 import StaggeredDropDown from "@/shared/staggeredDropdown";
-import { useEffect } from "react";
-import { useDispatch,useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import FeaturedEventCard from "../../components/FeaturedEventCard";
 import { IoLocationSharp } from "react-icons/io5";
 import { MdCalendarMonth } from "react-icons/md";
 import { BiSolidCategoryAlt } from "react-icons/bi";
-import { fetchPopularEvents } from "../../store/thunks";
+import { fetchUpcomingEvents } from "../../store/thunks";
 
-const FilteredEventsSection = ({ events }) => {
-    const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    const locations = [
-      "Current Location",
-      "Illinois",
-      "Indiana",
-      "Texas",
-      "Florida",
-      "California",
-      "Wisconsin",
-    ];
-    const categories = [
-      "Cosplay",
-      "Panels",
-      "Merchandise",
-      "Gaming",
-      "Convention",
-      "Art",
-      "Cultural",
-      "Festival",
-      "Music",
-      "Gathering",
-      "Dance",
-      "Film",
-      "Screening",
-      "Panel",
-      "Workshops",
-      "Outdoor",
-      "Technology",
-      "Exhibition",
-      "Interactive",
-      "Concert",
-      "Virtual",
-    ];
-  
-    const generateOptions = (items, icon) =>
-      items.map((text) => ({ text, icon }));
-  
-    const filteredByDateOptions = generateOptions(months, MdCalendarMonth);
-    const filteredByLocationOptions = generateOptions(locations, IoLocationSharp);
-    const filteredByCategoriesOptions = generateOptions(
-      categories,
-      BiSolidCategoryAlt
-    );
-    const dispatch = useDispatch();
-  
-    const popularEventsState = useSelector((state) => state.event);
-    const { status, popularItems, error } = popularEventsState;
-    useEffect(() => {
-      dispatch(fetchPopularEvents());
-    }, [dispatch]);
-  
-  
-    return (
-      <div className="px-10">
-        <div className="flex flex-wrap gap-4 mb-8">
+const FilteredEventsSection = () => {
+  const [category, setCategory] = useState(null);
+  const [state, setState] = useState(null);
+  const [month, setMonth] = useState(null);
+  const [type, setType] = useState(null);
+
+  const months = [
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+  ];
+  const states = [
+    "illinois",
+    "indiana",
+    "texas",
+    "florida",
+    "california",
+    "wisconsin",
+  ];
+  const categories = [
+    "cosplay",
+    "panels",
+    "merchandise",
+    "gaming",
+    "music",
+    "gathering",
+    "screening",
+    "food",
+    "virtual",
+  ];
+  const types = ["convention", "restaurant", "gaming", "social"];
+
+  const generateOptions = (items, icon) =>
+    items.map((text) => ({ text, icon }));
+
+  const filteredByDateOptions = generateOptions(months, MdCalendarMonth);
+  const filteredByLocationOptions = generateOptions(states, IoLocationSharp);
+  const filteredByCategoriesOptions = generateOptions(
+    categories,
+    BiSolidCategoryAlt
+  );
+  const filteredByTypeOptions = generateOptions(types, IoLocationSharp);
+
+  const dispatch = useDispatch();
+  const upcomingEventsState = useSelector((state) => state.event);
+  const { status, upcomingEventsData, error } = upcomingEventsState;
+
+  useEffect(() => {
+    const queryParams = {
+      month,
+      state,
+      category,
+      type,
+    };
+    dispatch(fetchUpcomingEvents(queryParams));
+  }, [dispatch, month, state, category, type]);
+
+  return (
+    <div className="px-10">
+      <div className="flex flex-wrap gap-4 mb-8">
+        <div>
           <StaggeredDropDown
             buttonText="Filter by date"
             options={filteredByDateOptions}
+            setFilter={setMonth}
           />
+        </div>
+        <div>
           <StaggeredDropDown
             buttonText="Filter by location"
             options={filteredByLocationOptions}
+            setFilter={setState}
           />
+        </div>
+        <div>
           <StaggeredDropDown
             buttonText="Filter by categories"
             options={filteredByCategoriesOptions}
+            setFilter={setCategory}
           />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {popularItems.map((event) => {
-            return FeaturedEventCard({ event });
-          })}
+        <div>
+          <StaggeredDropDown
+            buttonText="Filter by types"
+            options={filteredByTypeOptions}
+            setFilter={setType}
+          />
         </div>
       </div>
-    );
-  };
 
-  export default FilteredEventsSection
+      {/* Display Current Filters */}
+      <div className="mb-6">
+        <h2 className="text-lg font-semibold text-gray-700">
+          Current Filters:
+        </h2>
+        <div className="flex flex-wrap gap-2 mt-2">
+          {month && (
+            <span className="bg-indigo-100 text-indigo-600 px-3 py-1 rounded-md text-sm">
+              Month: {month}
+            </span>
+          )}
+          {state && (
+            <span className="bg-green-100 text-green-600 px-3 py-1 rounded-md text-sm">
+              Location: {state}
+            </span>
+          )}
+          {category && (
+            <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-md text-sm">
+              Category: {category}
+            </span>
+          )}
+          {type && (
+            <span className="bg-blue-100 text-red-600 px-3 py-1 rounded-md text-sm">
+              Type: {type}
+            </span>
+          )}
+          {!month && !location && !category && (
+            <span className="text-gray-500 text-sm">No filters applied.</span>
+          )}
+        </div>
+      </div>
+
+      {/* Events Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {upcomingEventsData.map((event) => {
+          return <FeaturedEventCard key={event._id} event={event} />;
+        })}
+      </div>
+    </div>
+  );
+};
+
+export default FilteredEventsSection;

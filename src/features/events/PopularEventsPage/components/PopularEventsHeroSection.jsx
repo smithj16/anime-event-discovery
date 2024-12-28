@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { popularEventsData } from "anime-event-discovery/src/utils/popularEventsData";
+import { popularEventsData } from "/src/utils/popularEventsData";
 import { useState,useEffect } from "react";
 
 const HeroSection = () => {

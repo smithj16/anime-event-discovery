@@ -1,12 +1,12 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { Image } from "../../shared/image";
+import Image from "next/image";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "@/store/slices/userSlice";
 import { motion, AnimatePresence } from "framer-motion";
-import avatarIconList from "../../utils/avatarList";
+import { avatarIconList, animeNameList } from "../../utils/avatarList";
 import DialogPopUp from "../../shared/components/UI/DialogPopUp";
 
 const SignupPage = () => {
@@ -31,6 +31,15 @@ const SignupPage = () => {
     exit: { opacity: 0, scale: 0.8 },
   };
 
+  const itemVariants = {
+    open: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 300, damping: 24 },
+    },
+    closed: { opacity: 0, y: 20, transition: { duration: 0.2 } },
+  };
+
   const containerVariants = {
     initial: {},
     animate: {
@@ -41,7 +50,7 @@ const SignupPage = () => {
   };
 
   //avatar input functions
-  const toggleDropdown = () => setIsOpen(!isOpen);
+  const toggleDropdown = () => setIsOpen((prev) => !prev);
 
   const handleSelectAvatar = (avatar) => {
     setSelectedAvatar(avatar);
@@ -156,6 +165,7 @@ const SignupPage = () => {
                       id="email"
                       name="email"
                       required
+                      autoComplete="true"
                       value={values.email || ""}
                       onChange={handleChange}
                       className="form-input w-full px-4 py-2 border rounded-full"
@@ -218,26 +228,84 @@ const SignupPage = () => {
                         </svg>
                       </button>
                       {isOpen && (
-                        <div className="absolute mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg z-20">
-                          <ul className="max-h-60 overflow-auto">
-                            {avatarIconList.map((avatar) => (
-                              <li
-                                key={avatar.id}
+                        <motion.div
+                          initial="closed"
+                          animate={isOpen ? "open" : "closed"}
+                          variants={{
+                            open: {
+                              opacity: 1,
+                              scale: 1,
+                              clipPath: "inset(0% 0% 0% 0% round 10px)",
+                              transition: {
+                                type: "spring",
+                                bounce: 0.3,
+                                duration: 0.5,
+                              },
+                            },
+                            closed: {
+                              opacity: 0,
+                              scale: 0.95,
+                              clipPath: "inset(10% 50% 90% 50% round 10px)",
+                              transition: {
+                                type: "spring",
+                                bounce: 0,
+                                duration: 0.3,
+                              },
+                            },
+                          }}
+                          className="absolute mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg z-20"
+                        >
+                          <motion.ul
+                            variants={{
+                              open: {
+                                transition: {
+                                  staggerChildren: 0.1,
+                                },
+                              },
+                              closed: {
+                                transition: {
+                                  staggerChildren: 0.05,
+                                  staggerDirection: -1,
+                                },
+                              },
+                            }}
+                            style={{ pointerEvents: isOpen ? "auto" : "none" }}
+                            className="max-h-60 overflow-auto"
+                          >
+                            {animeNameList.map((anime) => (
+                              <motion.li
+                                variants={{
+                                  open: {
+                                    opacity: 1,
+                                    y: 0,
+                                    transition: {
+                                      type: "spring",
+                                      stiffness: 300,
+                                      damping: 24,
+                                    },
+                                  },
+                                  closed: {
+                                    opacity: 0,
+                                    y: 20,
+                                    transition: { duration: 0.2 },
+                                  },
+                                }}
+                                key={anime.id}
                                 className="flex items-center py-2 px-4 duration-150 hover:bg-gray-300 cursor-pointer"
-                                onClick={() => handleSelectAvatar(avatar)}
+                                onClick={() => handleSelectAvatar(anime)}
                               >
                                 <Image
-                                  src={avatar.imageUrl}
-                                  alt={avatar.name}
-                                  width={48}
-                                  height={48}
-                                  className="w-12 h-12 rounded-full mr-2"
+                                  src={anime.imageUrl}
+                                  alt={anime.name}
+                                  width={4800}
+                                  height={4800}
+                                  className="w-24 h-20 mr-4"
                                 />
-                                <span>{avatar.name}</span>
-                              </li>
+                                <span>{anime.name}</span>
+                              </motion.li>
                             ))}
-                          </ul>
-                        </div>
+                          </motion.ul>
+                        </motion.div>
                       )}
                     </div>
                   </motion.div>

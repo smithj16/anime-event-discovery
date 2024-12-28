@@ -7,7 +7,9 @@ export const fetchPopularEvents = createAsyncThunk(
   "events/fetchPopularEvents",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.get("api/secure/readAllDocuments/PopularEvents");
+      const response = await api.get(
+        "api/secure/readAllDocuments/PopularEvents"
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -18,9 +20,19 @@ export const fetchPopularEvents = createAsyncThunk(
 // Fetch upcoming events
 export const fetchUpcomingEvents = createAsyncThunk(
   "events/fetchUpcomingEvents",
-  async (_, { rejectWithValue }) => {
+  async (filters, { rejectWithValue }) => {
     try {
-      const response = await api.get("api/secure/readAllDocuments/UpcomingEvents");
+      // Construct query string from filters
+      const queryString = new URLSearchParams(
+        Object.entries(filters).reduce((acc, [key, value]) => {
+          if (value) acc[key] = value; // Add only non-null values
+          return acc;
+        }, {})
+      ).toString();
+
+      const response = await api.get(
+        `api/secure/readAllDocuments/UpcomingEvents?${queryString}`
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
