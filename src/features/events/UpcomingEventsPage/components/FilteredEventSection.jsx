@@ -5,7 +5,7 @@ import FeaturedEventCard from "../../components/FeaturedEventCard";
 import { IoLocationSharp } from "react-icons/io5";
 import { MdCalendarMonth } from "react-icons/md";
 import { BiSolidCategoryAlt } from "react-icons/bi";
-import { fetchUpcomingEvents } from "../../store/thunks";
+import { fetchFilteredEvents } from "../../store/thunks";
 
 const FilteredEventsSection = () => {
   const [category, setCategory] = useState(null);
@@ -60,8 +60,8 @@ const FilteredEventsSection = () => {
   const filteredByTypeOptions = generateOptions(types, IoLocationSharp);
 
   const dispatch = useDispatch();
-  const upcomingEventsState = useSelector((state) => state.event);
-  const { status, upcomingEventsData, error } = upcomingEventsState;
+  const filteredEventData = useSelector((state) => state.event);
+  const { status, filteredEvent, error } = filteredEventData;
 
   useEffect(() => {
     const queryParams = {
@@ -70,7 +70,7 @@ const FilteredEventsSection = () => {
       category,
       type,
     };
-    dispatch(fetchUpcomingEvents(queryParams));
+    dispatch(fetchFilteredEvents(queryParams));
   }, [dispatch, month, state, category, type]);
 
   return (
@@ -140,7 +140,7 @@ const FilteredEventsSection = () => {
 
       {/* Events Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {upcomingEventsData.map((event) => {
+        {filteredEvent.map((event) => {
           return <FeaturedEventCard key={event._id} event={event} />;
         })}
       </div>

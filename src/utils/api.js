@@ -59,3 +59,16 @@ export const singleEventApi = async (name) => {
     throw error;
   }
 };
+
+
+export const filteredEventsApi = async () => {
+  try {
+    const response = await api.post("/secure/ReadDocument", {
+      name,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching popular events:", error);
+    throw error;
+  }
+}
