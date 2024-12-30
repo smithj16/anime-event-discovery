@@ -60,15 +60,14 @@ export const singleEventApi = async (name) => {
   }
 };
 
-
-export const filteredEventsApi = async () => {
+export const filteredEventsApi = async (filters) => {
   try {
-    const response = await api.post("/secure/ReadDocument", {
-      name,
+    const response = await api.post("/secure/readAllEventsFilter", {
+      filters,
     });
     return response.data;
   } catch (error) {
     console.error("Error fetching popular events:", error);
     throw error;
   }
-}
+};

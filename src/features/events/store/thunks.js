@@ -53,7 +53,6 @@ export const fetchEvent = createAsyncThunk(
   }
 );
 
-
 // Fetch upcoming events
 export const fetchFilteredEvents = createAsyncThunk(
   "events/fetchFilteredEvents",
@@ -72,6 +71,7 @@ export const fetchFilteredEvents = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
+      console.log(error.message);
       return rejectWithValue(error.response?.data || error.message);
     }
   }

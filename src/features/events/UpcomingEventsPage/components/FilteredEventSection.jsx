@@ -13,6 +13,13 @@ const FilteredEventsSection = () => {
   const [month, setMonth] = useState(null);
   const [type, setType] = useState(null);
 
+  // const clearFilters = () => {
+  //   setCategory(null);
+  //   setState(null);
+  //   setMonth(null);
+  //   setType(null);
+  // };
+
   const months = [
     "january",
     "february",
@@ -76,26 +83,28 @@ const FilteredEventsSection = () => {
   return (
     <div className="px-10">
       <div className="flex flex-wrap gap-4 mb-8">
-        <div>
-          <StaggeredDropDown
-            buttonText="Filter by date"
-            options={filteredByDateOptions}
-            setFilter={setMonth}
-          />
-        </div>
-        <div>
-          <StaggeredDropDown
-            buttonText="Filter by location"
-            options={filteredByLocationOptions}
-            setFilter={setState}
-          />
-        </div>
-        <div>
-          <StaggeredDropDown
-            buttonText="Filter by categories"
-            options={filteredByCategoriesOptions}
-            setFilter={setCategory}
-          />
+        <div className="flex flex-wrap gap-4 mb-8">
+          <div>
+            <StaggeredDropDown
+              buttonText="Filter by date"
+              options={filteredByDateOptions}
+              setFilter={setMonth}
+            />
+          </div>
+          <div>
+            <StaggeredDropDown
+              buttonText="Filter by location"
+              options={filteredByLocationOptions}
+              setFilter={setState}
+            />
+          </div>
+          <div>
+            <StaggeredDropDown
+              buttonText="Filter by categories"
+              options={filteredByCategoriesOptions}
+              setFilter={setCategory}
+            />
+          </div>
         </div>
         <div>
           <StaggeredDropDown
