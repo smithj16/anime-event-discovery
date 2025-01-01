@@ -7,12 +7,20 @@ import api from "./customAxios";
  */
 export const filteredEventsApi = async (filters, token) => {
   try {
+    // Create the query string from filters (if you’re using GET)
     const queryString = new URLSearchParams(filters).toString();
-    const response = await api.get(`/secure/readAllEventsFilter?${queryString}`, {
-      headers: {
-        "x-access-token": token || ""
-      },
-    });
+    
+    // Make the API request
+    const response = await api.get(
+      `/secure/readAllEventsFilter?${queryString}`,
+      {
+        headers: {
+          // Could be a custom header:
+          "x-access-token": token || "", 
+        },
+      }
+    );
+    
     return response.data;
   } catch (error) {
     console.error("Error fetching filtered events:", error);

@@ -78,7 +78,14 @@ const FilteredEventsSection = () => {
       category,
       type,
     };
-    dispatch(fetchFilteredEvents(queryParams));
+
+    // Pass both filters and token:
+    dispatch(
+      fetchFilteredEvents({
+        filters: queryParams,
+        token, // <-- Include token here
+      })
+    );
   }, [dispatch, month, state, category, type, token]);
 
   return (
@@ -142,7 +149,7 @@ const FilteredEventsSection = () => {
               Type: {type}
             </span>
           )}
-          {!month && !location && !category && (
+          {!month && !state && !category && !type && (
             <span className="text-gray-500 text-sm">No filters applied.</span>
           )}
         </div>

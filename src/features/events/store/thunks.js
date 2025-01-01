@@ -59,8 +59,8 @@ export const fetchFilteredEvents = createAsyncThunk(
   "events/fetchFilteredEvents",
   async ({ filters, token }, { rejectWithValue }) => {
     try {
-      const data = await filteredEventsApi(filters, token); 
-      console.log("API Response:", data);
+      // Pass both `filters` and `token` to your API function
+      const data = await filteredEventsApi(filters, token);
       return data;
     } catch (error) {
       console.error("FetchFilteredEvents Error:", error);
