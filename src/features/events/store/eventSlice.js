@@ -2,7 +2,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchPopularEvents, fetchUpcomingEvents, fetchEvent, fetchFilteredEvents } from "./thunks";
 import { popularEventsData, popularEventsCardData } from "@/utils/popularEventsData";
-import { filteredEventsApi } from "@/utils/api";
 
 // Initial state for event slice
 const initialState = {
@@ -19,8 +18,8 @@ const setPending = (state) => { state.status = "loading"; };
 const setFulfilledPopular = (state, action) => { state.status = "succeeded"; state.popularItems = action.payload?.events; };
 const setFulfilledUpcoming = (state, action) => { state.status = "succeeded"; state.upcomingEventsData = action.payload?.events; };
 const setFulfilledEvent = (state, action) => { state.status = "succeeded"; state.eventItem = action.payload?.event; };
-const setFulfilledFilter = (state, action) => {state.status = "succeeded"; state.filteredEvent = action.payload?.event; };
-const setRejected = (state, action) => { state.status = "failed"; state.error = action.error.message; };
+const setFulfilledFilter = (state, action) => {state.status = "succeeded"; state.filteredEvent = action.payload?.event || []; };
+const setRejected = (state, action) => { state.status = "failed"; state.error = action.error.message;  console.error("Fetch Rejected:", action.error);};
 
 // Event slice definition
 const eventSlice = createSlice({

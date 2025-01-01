@@ -8,10 +8,10 @@ import { BiSolidCategoryAlt } from "react-icons/bi";
 import { fetchFilteredEvents } from "../../store/thunks";
 
 const FilteredEventsSection = () => {
-  const [category, setCategory] = useState(null);
-  const [state, setState] = useState(null);
-  const [month, setMonth] = useState(null);
-  const [type, setType] = useState(null);
+  const [category, setCategory] = useState("");
+  const [state, setState] = useState("");
+  const [month, setMonth] = useState("");
+  const [type, setType] = useState("");
 
   // const clearFilters = () => {
   //   setCategory(null);
@@ -20,6 +20,7 @@ const FilteredEventsSection = () => {
   //   setType(null);
   // };
 
+  const token = "hardcoded-token-for-testing";
   const months = [
     "january",
     "february",
@@ -78,7 +79,7 @@ const FilteredEventsSection = () => {
       type,
     };
     dispatch(fetchFilteredEvents(queryParams));
-  }, [dispatch, month, state, category, type]);
+  }, [dispatch, month, state, category, type, token]);
 
   return (
     <div className="px-10">
@@ -105,13 +106,13 @@ const FilteredEventsSection = () => {
               setFilter={setCategory}
             />
           </div>
-        </div>
-        <div>
-          <StaggeredDropDown
-            buttonText="Filter by types"
-            options={filteredByTypeOptions}
-            setFilter={setType}
-          />
+          <div>
+            <StaggeredDropDown
+              buttonText="Filter by types"
+              options={filteredByTypeOptions}
+              setFilter={setType}
+            />
+          </div>
         </div>
       </div>
 

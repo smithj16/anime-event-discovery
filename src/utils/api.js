@@ -1,18 +1,34 @@
+// src/utils/api.js
 import api from "./customAxios";
 
-// Axios instances for APIs
-// const eventsUrlApi = axios.create({
-//   baseURL: eventsUrl,
-// });
-
-// const newsUrlApi = axios.create({
-//   baseURL: newsUrl,
-// });
-
-// Fetch latest news
-export const latestNewsApi = async () => {
+/**
+ * Example: filteredEventsApi
+ * We pass `token` as an argument and inject it into headers["x-access-token"].
+ */
+export const filteredEventsApi = async (filters, token) => {
   try {
-    const response = await api.get("/latestNews");
+    const queryString = new URLSearchParams(filters).toString();
+    const response = await api.get(`/secure/readAllEventsFilter?${queryString}`, {
+      headers: {
+        "x-access-token": token || ""
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching filtered events:", error);
+    throw error;
+  }
+};
+/**
+ * Example: latestNewsApi
+ */
+export const latestNewsApi = async (token) => {
+  try {
+    const response = await api.get("/latestNews", {
+      headers: {
+        "x-access-token": token || "",
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching latest news:", error);
@@ -20,12 +36,19 @@ export const latestNewsApi = async () => {
   }
 };
 
-// Fetch upcoming events
-export const upcomingEventsApi = async () => {
+/**
+ * Example: upcomingEventsApi
+ */
+export const upcomingEventsApi = async (token) => {
   try {
     const response = await api.post(
       "/secure/readAllDocuments/UpcomingEvents",
-      {}
+      {},
+      {
+        headers: {
+          "x-access-token": token || "",
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -34,37 +57,20 @@ export const upcomingEventsApi = async () => {
   }
 };
 
-// Fetch popular events
-export const popularEventsApi = async () => {
+/**
+ * Example: popularEventsApi
+ */
+export const popularEventsApi = async (token) => {
   try {
     const response = await api.post(
       "/secure/readAllDocuments/PopularEvents",
-      {}
+      {},
+      {
+        headers: {
+          "x-access-token": token || "",
+        },
+      }
     );
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching popular events:", error);
-    throw error;
-  }
-};
-
-export const singleEventApi = async (name) => {
-  try {
-    const response = await api.post("/secure/ReadDocument", {
-      name,
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching popular events:", error);
-    throw error;
-  }
-};
-
-export const filteredEventsApi = async (filters) => {
-  try {
-    const response = await api.post("/secure/readAllEventsFilter", {
-      filters,
-    });
     return response.data;
   } catch (error) {
     console.error("Error fetching popular events:", error);
